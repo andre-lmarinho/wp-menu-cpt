@@ -4,8 +4,8 @@
  *
  * Purpose: Registers metaboxes, admin column customizations, and CSV/image helpers for menu items.
  * Usage context: Load in the WordPress admin alongside the `WP Menu CPT` Menu Item custom post type.
- * Author: André Marinho.
- * Website: andremarinho.me.
+ * Author: André Marinho
+ * Website: andremarinho.me
  * Version: 1.1.1
  *
  * @package WP_Menu_CPT

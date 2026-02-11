@@ -4,8 +4,8 @@
  *
  * Purpose: Supplies shortcodes and rendering logic for displaying menu categories and items.
  * Usage context: Load on the public site wherever the `WP Menu CPT` menu needs to appear.
- * Author: André Marinho.
- * Website: andremarinho.me.
+ * Author: André Marinho
+ * Website: andremarinho.me
  * Version: 1.1.1
  *
  * @package WP_Menu_CPT

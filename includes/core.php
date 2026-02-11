@@ -4,8 +4,8 @@
  *
  * Purpose: Registers the custom post type, taxonomy, and helper metadata used by the Menu Item system.
  * Usage context: Loaded automatically by the `menu-cpt` MU plugin bootstrap on every request.
- * Author: André Marinho.
- * Website: andremarinho.me.
+ * Author: André Marinho
+ * Website: andremarinho.me
  * Version: 1.1.1
  *
  * @package WP_Menu_CPT

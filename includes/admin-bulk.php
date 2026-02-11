@@ -4,8 +4,8 @@
  *
  * Purpose: Provides CSV import and image linking utilities for menu items.
  * Usage context: Load in the WordPress admin to support mass menu updates for the `WP Menu CPT` menu system.
- * Author: André Marinho.
- * Website: andremarinho.me.
+ * Author: André Marinho
+ * Website: andremarinho.me
  * Version: 1.1.1
  *
  * @package WP_Menu_CPT
