@@ -1,31 +1,64 @@
 # WP Menu CPT
 
-A WordPress MU plugin that registers a **Menu Item** custom post type with categories, pricing, CSV import, image linking, and shortcode rendering. Ideal for restaurants, cafés, and food-service businesses.
+WP Menu CPT adds menu items, categories, prices, and shortcodes to WordPress. It also imports CSV files and links images by item code.
+
+Use it for a restaurant, café, or other food-service menu.
 
 ## Features
 
 - Custom Post Type (`menu_item`) with full admin UI
 - Hierarchical taxonomy (`menu_category`) with sort order and layout options
 - Price metabox with automatic numeric normalization
-- Single-category enforcement per item
+- Each menu item can belong to one category
 - CSV bulk import with delimiter auto-detection
-- Automatic image linking by item code
+- Image linking by item code
 - Shortcodes for rendering menus on the frontend
 - Two layout modes: **Simple** (list) and **Media** (with thumbnails)
 - Inline styles — no external CSS dependencies
-- Fully sanitized and escaped (WPCS compliant)
 
 ## Installation
 
-1. Copy the `wp-menu-cpt/` folder into `wp-content/mu-plugins/`.
-2. WordPress will load it automatically on every request.
+WordPress loads PHP files from the root of `wp-content/mu-plugins/`. It does not load PHP files inside subfolders. Install the plugin folder and add a root loader.
 
-Alternatively, create a loader file at `wp-content/mu-plugins/load-wp-menu-cpt.php`:
+1. Copy this repository to `wp-content/mu-plugins/wp-menu-cpt/`.
+2. Create `wp-content/mu-plugins/load-wp-menu-cpt.php` with this content:
 
 ```php
 <?php
+/**
+ * Plugin Name: WP Menu CPT Loader
+ * Description: Loads WP Menu CPT from its subfolder.
+ */
+defined('ABSPATH') || exit;
+
 require_once __DIR__ . '/wp-menu-cpt/wp-menu-cpt.php';
 ```
+
+### Confirm the plugin loaded
+
+WordPress loads must-use plugins automatically. You do not need to activate this plugin in the dashboard.
+
+1. In the dashboard, open **Plugins → Must-Use**. Confirm that **WP Menu CPT Loader** appears.
+2. Confirm that **Menu** appears in the dashboard sidebar.
+
+### Try it from end to end
+
+1. Open **Menu → Categories** and add a category with the slug `appetizers`.
+2. Open **Menu → Add New Item**. Add an item, assign it to `appetizers`, and publish it.
+3. Add this shortcode to a page and publish the page:
+
+   ```
+   [menu_category_display slug="appetizers" show_title="1" layout="media"]
+   ```
+
+4. View the page. Confirm that it shows the category, item, price, and description.
+
+### Uninstall
+
+1. Delete `wp-content/mu-plugins/load-wp-menu-cpt.php` to stop loading the plugin.
+2. Delete `wp-content/mu-plugins/wp-menu-cpt/`.
+
+Uninstalling the plugin does not delete menu items or categories from the database.
 
 ## Shortcodes
 
@@ -33,10 +66,14 @@ require_once __DIR__ . '/wp-menu-cpt/wp-menu-cpt.php';
 
 ```
 [menu_category_display slug="appetizers"]
-[menu_category_display id="5" layout="media" show_title="1"]
+[menu_category_display slug="appetizers" layout="media" show_title="1"]
 ```
 
-**Attributes:** `id`, `slug`, `name`, `show_title` (0|1), `show_desc` (0|1), `show_price` (0|1), `layout` (simple|media), `limit`, `order` (ASC|DESC), `orderby` (menu_order|title).
+Use one of `id`, `slug`, or `name` to choose a category. Set `show_title` and `show_price` to `0` or `1`.
+
+Choose `simple` or `media` for `layout`. You can also set `limit`, `order` (`ASC` or `DESC`), and `orderby` (`menu_order` or `title`).
+
+The category shortcode hides its title by default. Descriptions appear in the `media` layout and stay hidden in the `simple` layout.
 
 ### Display the full menu
 
@@ -44,9 +81,11 @@ require_once __DIR__ . '/wp-menu-cpt/wp-menu-cpt.php';
 [menu_full_display show_title="1" layout="simple"]
 ```
 
+This shortcode supports `show_title`, `show_price`, `layout`, `limit`, `order`, and `orderby`. It shows category titles by default.
+
 ### Auto-generated per-category shortcodes
 
-Each category automatically gets a shortcode based on its slug:
+Each category gets a shortcode based on its slug. The plugin replaces hyphens with underscores:
 
 ```
 [menu_appetizers]
@@ -61,9 +100,9 @@ The importer accepts CSV files with these columns (order does not matter):
 Category,Name,Description,Price
 ```
 
-See [sample-data/sample-menu.csv](sample-data/sample-menu.csv) for an example.
+See the [sample CSV file](sample-data/sample-menu.csv) for an example.
 
-Synonyms are supported: `Title`/`Product`/`Item` for Name, `Value` for Price.
+The importer accepts `Value` as a synonym for `Price`.
 
 ## Configuration
 
